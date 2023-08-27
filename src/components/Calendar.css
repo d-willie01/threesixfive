@@ -1,0 +1,29 @@
+.calendar-container {
+    text-align: center;
+  }
+  
+  .calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+  }
+  
+  .calendar-day {
+    border: 1px solid #8e2831;
+    border-radius: 20px;
+    padding: 8px;
+    cursor: pointer;
+  }
+  
+  .today {
+    background-color: #f0f0f0;
+  }
+  
+  .selected {
+    background-color: #007bff;
+    color: #fff;
+  }
+  
+  .empty {
+    visibility: hidden;
+  }
