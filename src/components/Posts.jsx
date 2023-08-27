@@ -64,49 +64,85 @@ useEffect(() =>{
 
     //this returns a custom component to match with
     //post data in the database
+
+    if (index.image === "") {
     return(
-       <div style={{
-    borderBottom:'2px solid black',
-     height: 450,
-     width: 450,
-     margin: 10
-   }}>
-
-     <div style={{
-       height: 300,
-       width: '100%',
+      <div style={{
+        borderBottom:'2px solid black',
+         height: 125,
+         width: 450,
+         margin: 10
+       }}>
+    
+    
+         <div style={{
+           display:"flex"
+         }}>
+         <h5 style={{margin:5}}>UPCOUNTER: {index.topCount} |</h5>
+    
+         <h5 style={{margin:5}}>{index.date}</h5>
+         </div>
        
-     }}>
-       <img style={{
          
-         width:'100%',
-         height: 300,
-         borderRadius:40
-       }}
-       src= {index.image}/>
-
-     </div>
-
-     <div style={{
-       display:"flex"
-     }}>
-     <h5 style={{margin:5}}>UPCOUNTER: 200 |</h5>
-
-     <h5 style={{margin:5}}>{index.date}</h5>
-     </div>
-   
-
-      <div>
-       <h4 style={{margin:5}}>{index.name}:</h4> {index.text}
-       </div> 
-     
-
-     
-
-
-
-   </div>
+          <div>
+           <h4 style={{margin:5}}>{index.name}:</h4> {index.text}
+           </div> 
+         
+    
+         
+    
+    
+    
+       </div>
     )
+    } else {
+
+      return(
+        <div style={{
+     borderBottom:'2px solid black',
+      height: 450,
+      width: 450,
+      margin: 10
+    }}>
+ 
+      <div style={{
+        height: 300,
+        width: '100%',
+        
+      }}>
+        <img style={{
+          
+          width:'100%',
+          height: 300,
+          borderRadius:40
+        }}
+        src= {index.image}/>
+ 
+      </div>
+ 
+      <div style={{
+        display:"flex"
+      }}>
+      <h5 style={{margin:5}}>UPCOUNTER: 200 |</h5>
+ 
+      <h5 style={{margin:5}}>{index.date}</h5>
+      </div>
+    
+ 
+       <div>
+        <h4 style={{margin:5}}>{index.name}:</h4> {index.text}
+        </div> 
+      
+ 
+      
+ 
+ 
+ 
+    </div>
+     )
+
+    }
+    
   })
 
   return (

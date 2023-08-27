@@ -92,12 +92,6 @@ export const Form = () => {
           <button style={{height: 50, width: 100, borderRadius:50, border: "none"}} onClick={sendData}>Submit</button>
 
 
-         
-
-
-
-
-
         </div>
         
     </div>
