@@ -10,6 +10,10 @@ const Feed = () =>{
     const [isToday, setIsToday] = useState(0);
     const {state} = useLocation();
     const clickedDate = new Date(state.clickedDate);
+    const clickedDay = clickedDate.getDate();
+    const clickedYear = clickedDate.getFullYear();
+    const clickedMonth = clickedDate.getMonth();
+
     const today = new Date();
     
     
@@ -63,7 +67,11 @@ useEffect(() => {
              }}
              >
 
-             <Posts/>
+             <Posts 
+             clickedDay={clickedDay} 
+             clickedMonth={clickedMonth} 
+             clickedYear={clickedYear}
+             />
 
           
             
@@ -84,8 +92,24 @@ useEffect(() => {
             </div>
 
             {/* div to place feed component */}
-            <div>
+            <div style={{
+                
+                border:'1px solid black',
+                
+                width:'100%',
 
+                display:"flex",
+
+                justifyContent:"center"
+                
+
+             }}>
+
+            <Posts 
+             clickedDay={clickedDay} 
+             clickedMonth={clickedMonth} 
+             clickedYear={clickedYear}
+             />
 
 
                 

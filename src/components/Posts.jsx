@@ -1,9 +1,57 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import {DATA} from "../data/mockPosts"
+import {db} from '../firebaseConfig';
+import { collection, getDocs, query, where } from "firebase/firestore";
 
 
 
-export const Posts = () => {
+export const Posts = ({clickedDay, clickedMonth, clickedYear}) => {
+
+const [queryData, setQueryData] = useState([]);
+
+//query to find posts with the correct date
+
+useEffect(() =>{
+
+
+  const querySearch = async() => {
+    console.log(clickedDay)
+    const yearRef = collection(db, "2023")
+    const q = query(yearRef, where("day", "==", clickedDay), where("month", "==", clickedMonth), where("year", "==", clickedYear))
+  
+    try {
+      const response = await getDocs(q)
+      const dataArr = [];
+  
+      response.forEach((doc) => {
+        const data = doc.data();
+        dataArr.push(data);
+      })
+      console.log(dataArr)
+      setQueryData(dataArr);
+      
+    } catch (error) {
+      console.log(error)
+    }
+  
+    console.log(queryData);
+  
+    //console.log(day);
+  }
+
+  querySearch()
+
+
+
+})
+
+
+
+
+
+
+
+
 
   /*
   renderArray takes in an array of objects and begins creating
@@ -12,7 +60,7 @@ export const Posts = () => {
   notation in the components to incorporate dynaimc data
   within components
   */
-  const renderArray = DATA.map((index) =>{
+  const renderArray = queryData.map((index) =>{
 
     //this returns a custom component to match with
     //post data in the database
@@ -53,7 +101,7 @@ export const Posts = () => {
        </div> 
      
 
-
+     
 
 
 
