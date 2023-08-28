@@ -1,8 +1,13 @@
 import React, {useState} from 'react'
-import {db} from '../firebaseConfig';
-import { collection, addDoc, getFirestore, setDoc, doc } from "firebase/firestore"; 
+import {db, storage} from '../firebaseConfig';
+import { 
+  collection, 
+  addDoc, 
+   } from "firebase/firestore";
+   
 import {AiOutlineHome} from 'react-icons/ai'
 import { useNavigate } from 'react-router-dom';
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 
 export const Form = () => {
@@ -11,7 +16,41 @@ export const Form = () => {
     const [name, setName] = useState("");
     const [text, setText] = useState("");
     const [image, setImage] = useState("");
+    const [imageURL, setImageURL] = useState();
    
+  
+
+  const filePicker = (event) => {
+      setImage(event.target.files[0]);
+      
+  }
+
+  const uploadImage = async() => {
+
+    const reference = ref(storage, 'image')
+  
+  try {
+    
+    const response = await uploadBytes(reference, "file.png");
+    console.log(response)
+   
+    
+
+
+  } catch (error) {
+
+    console.log(error);
+
+  }
+    
+    
+  
+
+
+
+}
+
+
 
     //error happening at this function, I think 
     //there is an issue reading the instance of the database and
@@ -71,7 +110,18 @@ export const Form = () => {
         <h2>Hello, create a POST here!</h2>
 
         
-          <button style={{height: 50, width: 100, borderRadius:50, border: "none"}}>Add an Image</button> 
+          <button 
+          style=
+            {{height: 50, 
+            width: 100, 
+            borderRadius:50, 
+            border: "none"
+            }}
+          ><input 
+          type='file'
+          accept="image/png, image/jpeg" 
+          onChange={filePicker}></input>
+          </button> 
            
           <p>Add your name:</p>
 
@@ -89,7 +139,7 @@ export const Form = () => {
 
 
             <p></p>
-          <button style={{height: 50, width: 100, borderRadius:50, border: "none"}} onClick={sendData}>Submit</button>
+          <button style={{height: 50, width: 100, borderRadius:50, border: "none"}} onClick={uploadImage}>Submit</button>
 
 
         </div>
