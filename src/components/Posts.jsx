@@ -66,6 +66,9 @@ useEffect(() =>{
     //post data in the database
     console.log(index.image)
 
+
+    //param to check if image is present, if not, 
+    //giant image dive is taken out of post
     if (index.image === "" ) {
     return(
       <div style={{
