@@ -64,8 +64,9 @@ useEffect(() =>{
 
     //this returns a custom component to match with
     //post data in the database
+    console.log(index.image)
 
-    if (index.image === "") {
+    if (index.image === "" ) {
     return(
       <div style={{
         borderBottom:'2px solid black',
@@ -98,11 +99,11 @@ useEffect(() =>{
     } else {
 
       return(
-        <div style={{
+  <div style={{
      borderBottom:'2px solid black',
       height: 450,
-      width: 450,
-      margin: 10
+      width: 300,
+      margin:10
     }}>
  
       <div style={{
@@ -119,26 +120,20 @@ useEffect(() =>{
         src= {index.image}/>
  
       </div>
- 
+        
       <div style={{
         display:"flex"
       }}>
-      <h5 style={{margin:5}}>UPCOUNTER: 200 |</h5>
+      <h5 style={{margin:5}}>UPCOUNTER: {index.topCount} |</h5>
  
       <h5 style={{margin:5}}>{index.date}</h5>
       </div>
     
  
-       <div>
-        <h4 style={{margin:5}}>{index.name}:</h4> {index.text}
-        </div> 
-      
- 
-      
- 
- 
- 
-    </div>
+      <h4 style={{margin:5,}}>{index.name}:</h4> {index.text}
+        
+
+  </div>
      )
 
     }

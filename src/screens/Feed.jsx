@@ -61,7 +61,7 @@ useEffect(() => {
 
                 display:"flex",
 
-                justifyContent:"center"
+           
                 
 
              }}

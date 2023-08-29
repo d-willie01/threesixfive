@@ -10,39 +10,115 @@ import { useNavigate } from 'react-router-dom';
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 
+
 export const Form = () => {
 
     let navigate = useNavigate();
     const [name, setName] = useState("");
     const [text, setText] = useState("");
     const [image, setImage] = useState("");
-    const [imageURL, setImageURL] = useState();
+    const [imageURL, setImageURL] = useState("");
    
   
 
   const filePicker = (event) => {
       setImage(event.target.files[0]);
+      console.log(image);
       
   }
 
-  const uploadImage = async() => {
+  const uploadPost = async() => {
+    const date = new Date();
+    const day = date.getDate();
+    const month = date.getMonth();
+    const year = date.getFullYear();
+    const reference = ref(storage, `${date}`)
+    console.log(image);
+    const blob = new Blob([image], {type : `${image.type}`})
+    console.log(blob);
 
-    const reference = ref(storage, 'image')
-  
-  try {
+    const metadata  = {
+      contentType : `${image.type}`
+    };
+
+  if (image === ""){
+
+    console.log('no pic');
     
-    const response = await uploadBytes(reference, "file.png");
-    console.log(response)
-   
+      const DATA = 
+      {
+        name: name,
+        day: day,
+        month: month,
+        year: year,
+        text: text,
+        image: "",
+        topCount: 0,
+        deleteCode: 12345
+      }
+      try {
+        console.log(imageURL);
+        const response3 = await addDoc(collection(db, `${year}`,), DATA);
+        console.log(response3);
+        alert("Post sent!");
+        navigate("/");
+      } catch (error) {
+        console.log(error)
+      }
+
     
 
-
-  } catch (error) {
-
-    console.log(error);
 
   }
+  else{
+
+    console.log('yes pic')
+    try {
     
+      const response = await uploadBytes(reference, blob, metadata);
+      console.log(response)
+  
+      
+      const response2 = await getDownloadURL(reference)
+   
+  
+      if(response2){
+        const DATA2 = 
+        {
+          name: name,
+          day: day,
+          month: month,
+          year: year,
+          text: text,
+          image: `${response2}`,
+          topCount: 0,
+          deleteCode: 12345
+        }
+        try {
+          console.log(imageURL);
+          const response3 = await addDoc(collection(db, `${year}`,), DATA2);
+          console.log(response3);
+          alert("Post sent!");
+          navigate("/");
+        } catch (error) {
+          console.log(error)
+        }
+      }
+      
+  
+  
+    } catch (error) {
+  
+      console.log(error);
+  
+    }
+    
+  }
+  
+  
+
+  
+ 
     
   
 
@@ -69,27 +145,8 @@ export const Form = () => {
 
     const sendData = async() => {
         console.log(db)
-        const date = new Date();
-        const day = date.getDate();
-        const month = date.getMonth();
-        const year = date.getFullYear();
-        const DATA = 
-        {
-          name: name,
-          day: day,
-          month: month,
-          year: year,
-          text: text,
-          image: "",
-          topCount: 0
-        }
-        try {
-          const response = await addDoc(collection(db, `${year}`,), DATA);
-          console.log(response);
-          alert("Post sent!");
-        } catch (error) {
-          console.log(error)
-        }
+       
+        
            
     }
 
@@ -118,9 +175,11 @@ export const Form = () => {
             border: "none"
             }}
           ><input 
+          style={{border: 'none'}}
           type='file'
           accept="image/png, image/jpeg" 
           onChange={filePicker}></input>
+          
           </button> 
            
           <p>Add your name:</p>
@@ -139,7 +198,7 @@ export const Form = () => {
 
 
             <p></p>
-          <button style={{height: 50, width: 100, borderRadius:50, border: "none"}} onClick={uploadImage}>Submit</button>
+          <button style={{height: 50, width: 100, borderRadius:50, border: "none"}} onClick={uploadPost}>Submit</button>
 
 
         </div>
