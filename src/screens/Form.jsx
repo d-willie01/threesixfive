@@ -10,7 +10,6 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 export const Form = () => {
 
-
     //useState constants to update variables based on user
     //input
     let navigate = useNavigate();
@@ -228,7 +227,7 @@ export const Form = () => {
 
 
           <p></p>
-        <button style={{height: 50, width: 100, borderRadius:50, border: "none"}} onClick={seeImage}>Submit</button>
+        <button style={{height: 50, width: 100, borderRadius:50, border: "none"}} onClick={uploadPost}>Submit</button>
 
 
       </div>
