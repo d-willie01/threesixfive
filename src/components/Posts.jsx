@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react'
-import {DATA} from "../data/mockPosts"
 import {db} from '../firebaseConfig';
 import { collection, getDocs, query, where } from "firebase/firestore";
 
@@ -90,7 +89,13 @@ useEffect(() =>{
          
           <div>
            <h4 style={{margin:5}}>{index.name}:</h4> {index.text}
-           </div> 
+           </div>
+
+           <div style={{margin: 5}}>
+            <h5>
+            {index.hour}
+            </h5>
+           </div>
          
     
          
@@ -118,7 +123,8 @@ useEffect(() =>{
           
           width:'100%',
           height: 300,
-          borderRadius:40
+          borderRadius:100,
+          objectFit:"contain"
         }}
         src= {index.image}/>
  
@@ -134,6 +140,12 @@ useEffect(() =>{
     
  
       <h4 style={{margin:5,}}>{index.name}:</h4> {index.text}
+
+      <div style={{margin: 5}}>
+            <h5>
+            {index.hour}
+            </h5>
+           </div>
         
 
   </div>

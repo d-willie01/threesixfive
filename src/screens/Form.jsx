@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import {db, storage} from '../firebaseConfig';
 import { 
   collection, 
@@ -9,6 +9,13 @@ import { useNavigate } from 'react-router-dom';
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 export const Form = () => {
+  
+  const teatime = new Date();
+  const rt = teatime.getHours();
+  
+
+ 
+
 
     //useState constants to update variables based on user
     //input
@@ -25,23 +32,48 @@ export const Form = () => {
 
   //issue here is image variable lags in creation, so it will skip the condition
   //thinking no image is there
-  const filePicker = (event) => {
-      
-      setImage(event.target.files[0]);
 
-      if (image) {
-        console.log('first')
-        const reader = new FileReader();
-  
-        reader.onload = (e) => {
-          setImageURI(e.target.result);
-        };
-  
-        reader.readAsDataURL(image);
-      }
-      console.log(imageURI);
+  // const filePicker = (event) => {
       
+  //     setImage(event.target.files[0]);
+
+  //     if (image) {
+  //       console.log('first')
+  //       const reader = new FileReader();
+  
+  //       reader.onload = (e) => {
+  //         setImageURI(e.target.result);
+  //       };
+  
+  //       reader.readAsDataURL(image);
+  //     }
+  //     console.log(imageURI);
+      
+  // }
+
+  useEffect(() => {
+    if (!image) {
+        setImageURI(undefined)
+        return
+    }
+
+    const objectUrl = URL.createObjectURL(image)
+    setImageURI(objectUrl)
+
+    // free memory when ever this component is unmounted
+    return () => URL.revokeObjectURL(objectUrl)
+}, [image])
+
+const filePicker = e => {
+  if (!e.target.files || e.target.files.length === 0) {
+      setImage(undefined)
+      return
   }
+
+  // I've kept this example simple by using the first image instead of multiple
+  setImage(e.target.files[0])
+}
+
 
 
   //function that beings upload process
@@ -54,7 +86,17 @@ export const Form = () => {
     const day = date.getDate();
     const month = date.getMonth();
     const year = date.getFullYear();
+    const time = date.getHours();
 
+    
+    function realTime(time) {
+      if (time <= 12) return time + 'am';
+      else {
+        return(
+          (24 - time) + "pm"
+        )
+      }
+    }
     //a reference is created to the 1: storage space on firebase
     // and 2: the name that you want to call the file
     //in this case we want the picture to be called whatever the date is
@@ -86,6 +128,7 @@ export const Form = () => {
         day: day,
         month: month,
         year: year,
+        hour: realTime(time),
         text: text,
         image: "",
         topCount: 0,
@@ -106,6 +149,7 @@ export const Form = () => {
         navigate("/");
       } catch (error) {
         console.log(error)
+        alert(error)
       }
 
     
@@ -143,7 +187,8 @@ export const Form = () => {
           text: text,
           image: `${response2}`,
           topCount: 0,
-          deleteCode: 12345
+          deleteCode: 12345,
+          hour: realTime(time),
         }
         try {
           
@@ -154,7 +199,8 @@ export const Form = () => {
           alert("Post sent!");
           navigate("/");
         } catch (error) {
-          console.log(error)
+          console.log(error);
+          alert(error);
         }
       }
       
@@ -163,6 +209,7 @@ export const Form = () => {
     } catch (error) {
   
       console.log(error);
+      alert(error);
   
     }
     
@@ -184,9 +231,14 @@ export const Form = () => {
 
   return(
 
-    <div style={{display:"flex", justifyContent:"center"}}>
+    <div style={{
+      display:"flex", 
+      justifyContent:"center", 
+      backgroundColor:'rgba(179, 118, 118, 0.637)',
+      height: 700
+    }}>
 
-    <div style={{margin:20}} onClick={sendHome}>
+    <div style={{margin:20, height: 50}} onClick={sendHome}>
       <AiOutlineHome size={30}/>
     </div>
       <div>
@@ -198,10 +250,11 @@ export const Form = () => {
           {{height: 50, 
           width: 100, 
           borderRadius:50, 
-          border: "none"
+          border: "none", 
+          backgroundColor:"white"
           }}
         ><input 
-        style={{border: 'none'}}
+        style={{}}
         type='file'
         accept="image/png, image/jpeg" 
         onChange={filePicker}></input>
@@ -211,23 +264,39 @@ export const Form = () => {
           {imageURI && <img src={imageURI} alt="Selected" style={{height:300, width:'100%', borderRadius:35}}/>}
         
          
-        <p>Add your name:</p>
+        <div>
 
-        <input 
-        style={{border:'2px solid grey', width: 300, height: 50, borderRadius:50, textAlign:"center" }}
+        <input
+        placeholder='Title...'
+        maxLength={15}
+        type='text'
+        style={{border:'2px solid grey', width: 120, height: 30, borderRadius:50, textAlign:"center", marginTop:20}}
         onChange={e => setName(e.target.value)}
         />
 
-        <p>Add Description:</p>
+          
+        </div>
 
-        <input 
-        style={{border:'2px solid grey', width: 300, height: 100, borderRadius:50, textOverflow: "clip" }}
+        
+
+        <div>
+
+        <textarea
+        placeholder='Description.....'
+        rows={3}
+        cols={30}
+        maxLength={100}
+        style={{border:'2px solid grey', marginTop:20 }}
         onChange={e => setText(e.target.value)}
         />
 
+        </div>
+
+       
+
 
           <p></p>
-        <button style={{height: 50, width: 100, borderRadius:50, border: "none"}} onClick={uploadPost}>Submit</button>
+        <button style={{backgroundColor:"white", height: 50, width: 100, borderRadius:50, border: "none"}} onClick={uploadPost}>Submit</button>
 
 
       </div>

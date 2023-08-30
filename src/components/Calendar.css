@@ -9,14 +9,15 @@
   }
   
   .calendar-day {
-    border: 1px solid #8e2831;
+    border: 1px solid black;
     border-radius: 20px;
     padding: 8px;
     cursor: pointer;
+    background-color: #fff;
   }
   
   .today {
-    background-color: #f0f0f0;
+    background-color: #fc2b2b52;
   }
   
   .selected {

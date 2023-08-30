@@ -4,6 +4,7 @@ import { useLocation } from 'react-router-dom';
 import { checkDate } from '../utils/functions';
 import { Posts } from '../components/Posts';
 import { useNavigate } from "react-router-dom";
+import {AiOutlineHome} from 'react-icons/ai'
 
 const Feed = () =>{
 
@@ -37,17 +38,28 @@ useEffect(() => {
         navigate('/form')
         
     }
+    function sendHome() {
+        
+        navigate('/')
+        
+    }
    
 
     if(isToday === 1) return (
         <div>
-            <div>
+            <div style={{backgroundColor: 'rgba(120, 70, 70, 0.637)',
+        border:'1px solid black'}}>
             <h1>Welcome to Today!</h1>
 
             <h2>It is currently: {todayRender}</h2>
 
             <div>
                 <h4>You can either, <button onClick={formScreen}>POST</button> ,  or just scroll to see the latest posts from today!</h4>
+                <div onClick={sendHome}>
+                <AiOutlineHome size={40} /> (back to calendar)
+                </div>
+                    
+                
             </div>
             </div>
 
@@ -56,7 +68,7 @@ useEffect(() => {
              <div style={{
                 
                 border:'1px solid black',
-                
+                backgroundColor: 'rgba(179, 118, 118, 0.637)',
                 width:'100%',
 
                 display:"flex",
@@ -100,7 +112,7 @@ useEffect(() => {
 
                 display:"flex",
 
-                justifyContent:"center"
+            
                 
 
              }}>
