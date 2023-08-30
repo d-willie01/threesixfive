@@ -90,10 +90,11 @@ const filePicker = e => {
 
     
     function realTime(time) {
+      console.log(time)
       if (time <= 12) return time + 'am';
       else {
         return(
-          (24 - time) + "pm"
+          (time - 12) + "pm"
         )
       }
     }
