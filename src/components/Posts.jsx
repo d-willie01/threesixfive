@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react'
 import {db} from '../firebaseConfig';
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { PostRender } from './PostRender';
+import { sortArrayOfObjectsDescending } from '../utils/functions';
 
 
 
@@ -47,6 +48,10 @@ useEffect(() =>{
 
 
 },[])
+
+sortArrayOfObjectsDescending(queryData,'topCount')
+
+
 
 
   /*

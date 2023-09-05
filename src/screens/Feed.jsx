@@ -95,7 +95,9 @@ useEffect(() => {
     ) 
     if (isToday === 0 ) return(
         
-        <div>
+        <div style={{backgroundColor: 'rgba(120, 70, 70, 0.637)',
+        border:'1px solid black'}}
+        >
             <h1>Welcome to the past</h1>
             <h2>This date was: {clickDateRender}</h2>
 
@@ -103,12 +105,18 @@ useEffect(() => {
                 <h4>Scroll to check out posts from this date in the past below!</h4>
             </div>
 
+            <div onClick={sendHome}>
+                <AiOutlineHome size={40} /> (back to calendar)
+                </div>
+
             {/* div to place feed component */}
             <div style={{
                 
                 border:'1px solid black',
-                
+                backgroundColor: 'rgba(179, 118, 118, 0.637)',
                 width:'100%',
+
+                
 
                 display:"flex",
 
@@ -130,12 +138,18 @@ useEffect(() => {
     )
     if (isToday === 2 ) return(
         
-        <div>
+        <div style={{backgroundColor: 'rgba(120, 70, 70, 0.637)',
+        border:'1px solid black',
+        height:1000}}>
+            
             <h1>Welcome to the Future</h1>
 
             <div>
                 Gotta wait for the past to catch up!
             </div>
+            <div onClick={sendHome}>
+                <AiOutlineHome size={40} /> (back to calendar)
+                </div>
         </div>
     )
 }

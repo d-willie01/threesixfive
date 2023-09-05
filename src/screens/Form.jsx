@@ -2,7 +2,10 @@ import React, {useState, useEffect} from 'react'
 import {db, storage} from '../firebaseConfig';
 import { 
   collection, 
-  addDoc, 
+  addDoc,
+  setDoc, 
+  Timestamp,
+  doc
    } from "firebase/firestore";
 import {AiOutlineHome} from 'react-icons/ai'
 import { useNavigate } from 'react-router-dom';
@@ -20,36 +23,12 @@ export const Form = () => {
     //useState constants to update variables based on user
     //input
     let navigate = useNavigate();
+    const [active, setActive] = useState(false);
     const [name, setName] = useState("");
     const [text, setText] = useState("");
     const [image, setImage] = useState("");
     const [imageURI, setImageURI] = useState();
     
-   
-  
-  //function to set the image to the image state variable
-
-
-  //issue here is image variable lags in creation, so it will skip the condition
-  //thinking no image is there
-
-  // const filePicker = (event) => {
-      
-  //     setImage(event.target.files[0]);
-
-  //     if (image) {
-  //       console.log('first')
-  //       const reader = new FileReader();
-  
-  //       reader.onload = (e) => {
-  //         setImageURI(e.target.result);
-  //       };
-  
-  //       reader.readAsDataURL(image);
-  //     }
-  //     console.log(imageURI);
-      
-  // }
 
   useEffect(() => {
     if (!image) {
@@ -78,7 +57,7 @@ const filePicker = e => {
 
   //function that beings upload process
   const uploadPost = async() => {
-
+    setActive(true)
     //first date is registered to keep everything consistant
     const date = new Date();
 
@@ -123,6 +102,7 @@ const filePicker = e => {
     
 
     //deta object being placed in collection
+    console.log(date);
       const DATA = 
       {
         name: name,
@@ -133,14 +113,17 @@ const filePicker = e => {
         text: text,
         image: "",
         topCount: 0,
-        deleteCode: 12345
+        deleteCode: 12345,
+        id: `${date}`
+        
       }
       try {
         //function to deposit the document into db, taking in three arguments
         //1: a fireStore reference, in this case db imported from firebaseconfig file
         //2: name of the collection being placed in, in this case the year
         //3: finally the data is the last argument
-        const response3 = await addDoc(collection(db, `${year}`,), DATA);
+        const response3 = await setDoc(doc(db, `${year}`, `${date}`), DATA);
+        console.log(DATA)
         
         
         //alerting user of post sent
@@ -190,12 +173,13 @@ const filePicker = e => {
           topCount: 0,
           deleteCode: 12345,
           hour: realTime(time),
+          id: date
         }
         try {
           
           //function can now be ran to add the full document including user title and
           //description to the databse
-          const response3 = await addDoc(collection(db, `${year}`,), DATA2);
+          const response3 = await setDoc(doc(db, `${year}`,`${date}`), DATA2);
           console.log(response3);
           alert("Post sent!");
           navigate("/");
@@ -297,7 +281,7 @@ const filePicker = e => {
 
 
           <p></p>
-        <button style={{backgroundColor:"white", height: 50, width: 100, borderRadius:50, border: "none"}} onClick={uploadPost}>Submit</button>
+        <button disabled={active} style={{backgroundColor:"white", height: 50, width: 100, borderRadius:50, border: "none"}} onClick={uploadPost}>Submit</button>
 
 
       </div>

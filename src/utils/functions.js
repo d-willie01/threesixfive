@@ -21,3 +21,20 @@ export function checkDate(today, clickedDate) {
     else return dateType
     
   }
+
+  export function sortArrayOfObjectsDescending(array, property) {
+    // Use the sort method with a custom comparison function
+    array.sort((a, b) => {
+      const valueA = a[property];
+      const valueB = b[property];
+  
+      // Compare values in descending order
+      if (valueA > valueB) {
+        return -1;
+      }
+      if (valueA < valueB) {
+        return 1;
+      }
+      return 0;
+    });
+  };
