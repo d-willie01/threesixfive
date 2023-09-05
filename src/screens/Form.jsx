@@ -173,7 +173,7 @@ const filePicker = e => {
           topCount: 0,
           deleteCode: 12345,
           hour: realTime(time),
-          id: date
+          id: `${date}`
         }
         try {
           
